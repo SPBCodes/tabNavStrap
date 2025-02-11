@@ -1,4 +1,4 @@
-// tabStrap is © 2025 by Steve Burgess (SPBCodes)
+// tabNavStrap is © 2025 by Steve Burgess (SPBCodes)
 // This is released under the MIT licence.
 // Please ensure this notice and the licence are published along with the code
 
@@ -19,10 +19,10 @@ class TabNav
 		var tabcont=$("#"+this.container).append(`<ul class="nav nav-tabs" id="`+this.id+`"></ul><div id="`+this.id+`-content" class="tabcontentcontainer"></div>`);
 		if(this.sortable)
 		{
-		$("#"+this.id).sortable(
-		{
-			items: "li:not(:first-child)"
-		});
+			$("#"+this.id).sortable(
+				{
+					items: "li:not(:first-child)"
+				});
 		}
 		this.opentab(this.homeconfig);
 		
@@ -58,6 +58,23 @@ class TabNav
 		
 		if($("#"+this.id).find("#"+tab.tabid+"-tab").length==1)
 		{
+			if($("#"+this.id).find("#"+tab.tabid+"-tab").data("ajaxData"))
+			{
+				console.log("Element has data");
+				if(JSON.stringify(tab.ajaxData)!=$("#"+this.id).find("#"+tab.tabid+"-tab").data("ajaxData"))
+				{
+					if(confirm("This tab you are trying to open is already open with other content.\r\n\r\nClick OK to replace this tab's content with the new content")==true)
+					{
+						that.closetab(tab.tabid,function() {
+						that.opentab(tab);	
+						});
+					}
+					else
+					{
+						return false;
+						}
+				}
+			}
 			$("#"+this.id).find(".nav-link").removeClass("active");
 			$("#"+this.id).find("#"+tab.tabid+"-tab").find(".nav-link").addClass("active");
 			if(tab.closeable)
@@ -79,6 +96,12 @@ class TabNav
 				$("#"+this.id).find("#"+tab.tabid+"-tab a").append(`<i   data-bs-toggle="tooltip" title="Close this tab" class="text-danger ms-2 bi bi-x-circle"></i>`);
 				$("#"+this.id).find("#"+tab.tabid+"-tab a").find("i.bi-x-circle").on("click",function() { that.closetab(tab) });
 			}
+			if(tab.ajaxData)
+			{
+				
+				$("#"+this.id + " li#"+tab.tabid+"-tab").data("ajaxData",JSON.stringify(tab.ajaxData)); 
+				console.log($("#"+this.id + " li#"+tab.tabid+"-tab"));
+			}
 			$(`#`+this.id+`-content`).append(`<div class="tabcontent" id="`+tab.tabid+`-content"></div>`);
 			this.getContent(tab);
 			$("li#"+tab.tabid+"-tab a").off("click");
@@ -94,10 +117,10 @@ class TabNav
 		$("#"+this.id+"-content").find(".tabcontent").hide();
 		$("#"+this.id+"-content").find("#"+tab.tabid+`-content`).show();
 	}
-	closetab(tabid)
+	closetab(tabid,callback)
 	{
 		event.stopPropagation();
-		if(typeof tab=="undefined")
+		if(typeof tabid=="undefined")
 		{
 			tabid=$("#"+this.id).find("i.bi-x-circle:visible").parent().parent().attr("id").replace("-tab","");
 		}
@@ -106,6 +129,10 @@ class TabNav
 		this.history.splice(this.history.indexOf(tabid),1);
 		this.tabnext--;
 		$("#"+this.id).find("#"+this.history[this.history.length-1]+"-tab a").trigger("click");
+		if(typeof callback=="function")
+		{
+			callback();
+		}
 	}
 	getContent(tab)
 	{
