@@ -25,7 +25,7 @@ The class requires:
   contentType:"file",
   ajaxMethod:"GET",
   closeable:false, // the home tab should not be closeable
-  refresh:false,
+  refresh:false
 }
 ```
 * **tabid** : a unique id for the tab
@@ -74,22 +74,24 @@ In the example below the following data attributes are set on a button:
 * **data-tabconfig** - this has a JSON object with the settings outlined above for opening a new tab. A Staff ID is sent with the ajax request so the content can be specific to the staff member with that ID.
 
 ```
-<div><h1>List of staff members</h1>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Job Title</th>
-      <th>Salary</th><th>&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Joe Bloggs</td>
-      <td>CEO</td>
-      <td>£100,000</td>
-      <td><button data-tab="invoke" data-tabconfig='{"tabid":"tab3","label":"Staff Record","content":"/tabs/staffrecord.php","contentType":"file","ajaxData":{"staffid":150},"ajaxMethod":"POST"}' class="btn btn-sm btn-primary">More Info</button></td>
-    </tr>
+<div>
+  <h1>Content retrieved by the ajax request</h1>
+  <h2>List of staff members</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Job Title</th>
+        <th>Salary</th><th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Joe Bloggs</td>
+        <td>CEO</td>
+        <td>£100,000</td>
+        <td><button data-tab="invoke" data-tabconfig='{"tabid":"tab3","label":"Staff Record","content":"/tabs/staffrecord.php","contentType":"file","ajaxData":{"staffid":150},"ajaxMethod":"POST"}' class="btn btn-sm btn-primary">More Info</button></td>
+      </tr>
   </table>
 </div>
 ```
