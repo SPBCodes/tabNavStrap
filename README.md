@@ -26,7 +26,7 @@ The class requires:
   ajaxMethod:"GET",
   closeable:false, // the home tab should not be closeable
   refresh:false,
-};
+}
 ```
 * **tabid** : a unique id for the tab
 * **label** : the label for the tab - can include icons e.g. **&lt;i class="bi bi-house">&lt;/i> Home**
@@ -66,11 +66,11 @@ will close the currently active tab. The tab and the content container are remov
 will close the tab with a specific id.
 
 ## Open a tab using a control on the ajax retrieved content
-If you want to open a tab using a control on the content that is retrieved by an ajax request, you can use data attributes.
+If you want to open a tab using a control in the content that is retrieved by an ajax request, you can use data attributes.
 
 In the example below the following data attributes are set on a button:
 
-* **data-tab** - this has a value of "invoke" which tells tabStrap that the button wants to open a new tab
+* **data-tab** - this has a value of "invoke" which indicates that the button wants to open a new tab
 * **data-tabconfig** - this has a JSON object with the settings outlined above for opening a new tab. A Staff ID is sent with the ajax request so the content can be specific to the staff member with that ID.
 
 ```
@@ -94,8 +94,9 @@ In the example below the following data attributes are set on a button:
 </div>
 ```
 ## Close the current tab using a control on the ajax retrieved content
-If you want to open a tab using a control on the content that is retrieved by an ajax request you can use data attributes.
+If you want to open a tab using a control in the content that is retrieved by an ajax request you can use data attributes.
 
+* **data-tab** - a value of "close" indicates the button wants to close the currently active tab.
 ```
 <div>
   <h1>Content retrieved from ajax request</h1>
