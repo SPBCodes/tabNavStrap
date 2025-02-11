@@ -66,13 +66,13 @@ class TabNav
 					if(confirm("This tab you are trying to open is already open with other content.\r\n\r\nClick OK to replace this tab's content with the new content")==true)
 					{
 						that.closetab(tab.tabid,function() {
-						that.opentab(tab);	
+							that.opentab(tab);	
 						});
 					}
 					else
 					{
 						return false;
-						}
+					}
 				}
 			}
 			$("#"+this.id).find(".nav-link").removeClass("active");
@@ -94,11 +94,10 @@ class TabNav
 			if(tab.closeable)
 			{
 				$("#"+this.id).find("#"+tab.tabid+"-tab a").append(`<i   data-bs-toggle="tooltip" title="Close this tab" class="text-danger ms-2 bi bi-x-circle"></i>`);
-				$("#"+this.id).find("#"+tab.tabid+"-tab a").find("i.bi-x-circle").on("click",function() { that.closetab(tab) });
+				$("#"+this.id).find("#"+tab.tabid+"-tab a").find("i.bi-x-circle").on("click",function() { that.closetab(tab.tabid) });
 			}
 			if(tab.ajaxData)
 			{
-				
 				$("#"+this.id + " li#"+tab.tabid+"-tab").data("ajaxData",JSON.stringify(tab.ajaxData)); 
 				console.log($("#"+this.id + " li#"+tab.tabid+"-tab"));
 			}
