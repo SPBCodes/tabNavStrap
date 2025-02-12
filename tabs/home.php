@@ -8,15 +8,17 @@
 		<h1>Home Tab Content</h1>
 		<p>Loaded dynamically from /tabs/home.php at <?=date("Y-m-d H:i:s",time())?></p>
 		<p>This tab has these settings:</p>
-		<pre>	{
-			tabid:"home",
-			label:"&lti class=\"bi bi-house\">&lt;/i> Home",
-			content:"/tabs/home.php",
-			contentType:"file",
-			ajaxMethod:"GET",
-			closeable:false,
-			refresh:false
-		}</pre> 
+		<pre>	
+	{
+		tabid:"home",
+		label:"&lti class=\"bi bi-house\">&lt;/i> Home",
+		content:"/tabs/home.php",
+		contentType:"file",
+		ajaxMethod:"GET",
+		closeable:false,
+		refresh:false
+	}
+		</pre> 
 		<p>This means the content is loaded only once and the tab cannot be closed by the user.</p>
 	</div>
 </div>
