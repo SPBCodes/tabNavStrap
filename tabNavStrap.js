@@ -121,7 +121,7 @@ class TabNav
 		event.stopPropagation();
 		if(typeof tabid=="undefined")
 		{
-			tabid=$("#"+this.id).find("i.bi-x-circle:visible").parent().parent().attr("id").replace("-tab","");
+			tabid=$("#"+this.id).find("li a.active").parent().attr("id").replace("-tab","");
 		}
 		$("#"+this.id).find("#"+tabid+"-tab").remove();
 		$("#"+this.id + "-content").find("#"+tabid+"-content").remove();
