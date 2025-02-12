@@ -16,7 +16,7 @@ class TabNav
 	}
 	initialise()
 	{
-		var tabcont=$("#"+this.container).append(`<ul class="nav nav-tabs" id="`+this.id+`"></ul><div id="`+this.id+`-content" class="tabcontentcontainer"></div>`);
+		var tabcont=$("#"+this.container).append(`<ul   id="`+this.id+`"  class="flex-row mt-1 nav nav-tabs ">	</ul><div   class="flex-grow-1 flex-row mb-3" style="padding:20px;background-color:white;border:1px solid rgb(222,226,230);overflow:auto;border-top:0;"><div  id="`+this.id+`-content" class="pb-2"  ></div></div>`);
 		if(this.sortable)
 		{
 			$("#"+this.id).sortable(
@@ -98,6 +98,7 @@ class TabNav
 			}
 			if(tab.ajaxData)
 			{
+				
 				$("#"+this.id + " li#"+tab.tabid+"-tab").data("ajaxData",JSON.stringify(tab.ajaxData)); 
 				console.log($("#"+this.id + " li#"+tab.tabid+"-tab"));
 			}
