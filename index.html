@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+		<title>tabNavStrap - Live Demo</title>
+		<meta charset="utf-8">  
+		<meta name="theme-color" content="#ffffff" >
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta type="description" content="Live Demo of tabNavStrap - the JavaScript/jQuery class for generating tabbed navigation and content that is compatible with the Bootstrap library">
+		<link rel="icon" href="favicon.png">
+		
+		<style>
+			.tabcontentcontainer
+			{
+			border:1px solid var(--bs-border-color); 	
+			border-top:0;
+			height:500px;overflow-x:hidden;overflow-y:auto;
+			padding:10px;
+			}
+			#loading
+			{
+			font-size:3em;text-align:center;margin-top:4em;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container mt-3" id="tabcont"> 
+		</div>
+		<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+		<script src="/tabNavStrap.js"></script>			
+		<script>
+			$().ready(function()
+			{
+				var homeconfig={
+					tabid:"home",
+					label:"<i class=\"bi bi-house\"></i> Home",
+					content:"/tabs/home.php",
+					contentType:"file",
+					ajaxMethod:"GET",
+					closeable:false,
+					refresh:false,
+				};
+				tabnav=new TabNav("tabs","tabcont",true,homeconfig);
+				tabnav.initialise();	
+			});
+		</script>
+	</body>
+</html>
