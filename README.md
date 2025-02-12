@@ -96,7 +96,7 @@ In the example below the following data attributes are set on a button:
 </div>
 ```
 ## Close the current tab using a control on the ajax retrieved content
-If you want to open a tab using a control in the content that is retrieved by an ajax request you can use data attributes.
+If you want to close a tab using a control in the content that is retrieved by an ajax request you can use data attributes.
 
 * **data-tab** - a value of "close" indicates the button wants to close the currently active tab.
 ```
@@ -105,7 +105,7 @@ If you want to open a tab using a control in the content that is retrieved by an
   <button class="btn btn-danger" data-tab="close">Close This Tab</button>
 </div>
 ```
-Clicking the button with close the current tab.
+Clicking the button will close the current tab.
 
 # Live Demo
 [View the live demo](https://spbcodes.online/tabNavStrap)
