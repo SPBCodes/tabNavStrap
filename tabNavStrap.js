@@ -2,7 +2,7 @@
 // This is released under the MIT licence.
 // Please ensure this notice and the licence are published along with the code
 
-class TabNav
+class TabNavStrap
 {
 	constructor(id,container,type,sortable,homeconfig)
 	{
@@ -10,7 +10,7 @@ class TabNav
 		this.container=container || "body";
 		this.type=type || "tabs";
 		this.sortable=sortable || true;
-		this.homeconfig=homeconfig || {"tabid":"home","label":"Home","contentType":"html","content":"Hello World"}
+		this.homeconfig=homeconfig || {"tabid":"home","label":"Home","contentType":"html","content":"Hello World","closeable":false}
 		this.history=[];
 		this.history[0]=id;
 		this.tabnext=0;
@@ -19,7 +19,7 @@ class TabNav
 	{		
 		if(this.container!="body")
 		{
-		this.container="#"+this.container;
+			this.container="#"+this.container;
 		}
 		var tabcont=$(this.container).append(`<ul   id="`+this.id+`"  class="flex-row mt-1 navtabstrap nav nav-`+this.type +`">	</ul>
 			<div   class="flex-grow-1 flex-row mb-3" style="padding:20px;background-color:white;border:1px solid rgb(222,226,230);overflow:auto;` +  ((this.type=="pills") ? 'border-radius:5px;' : 'border-top:0;') + `">
@@ -38,8 +38,6 @@ class TabNav
 	}
 	opentab(tab)
 	{
-		console.log(tab);
-		console.log(this);
 		if(typeof tab.ajaxData=="undefined")
 		{
 			tab.ajaxData=null;
@@ -66,12 +64,10 @@ class TabNav
 		}
 		$("#"+this.id).find("i.bi-x-circle").hide();
 		var that=this;
-		
 		if($("#"+this.id).find("#"+tab.tabid+"-tab").length==1)
 		{
 			if($("#"+this.id).find("#"+tab.tabid+"-tab").data("ajaxData"))
 			{
-				console.log("Element has data");
 				if(JSON.stringify(tab.ajaxData)!=$("#"+this.id).find("#"+tab.tabid+"-tab").data("ajaxData"))
 				{
 					if(confirm("This tab you are trying to open is already open with other content.\r\n\r\nClick OK to replace this tab's content with the new content")==true)
@@ -100,7 +96,7 @@ class TabNav
 		else
 		{
 			$("#"+this.id).find(".nav-link").removeClass("active");
-			$("#"+this.id).append(`<li  id="`+ tab.tabid+`-tab"   class="nav-item nav-sortable">
+			$("#"+this.id).append(`<li data-dirty="false"  id="`+ tab.tabid+`-tab"   class="nav-item nav-sortable">
 			<a class="nav-link active" href="#"><span class="label">` + tab.label +	`</span> </a></li>`);
 			if(tab.closeable)
 			{
@@ -111,7 +107,7 @@ class TabNav
 			{
 				
 				$("#"+this.id + " li#"+tab.tabid+"-tab").data("ajaxData",JSON.stringify(tab.ajaxData)); 
-				console.log($("#"+this.id + " li#"+tab.tabid+"-tab"));
+				
 			}
 			$(`#`+this.id+`-content`).append(`<div class="tabcontent" id="`+tab.tabid+`-content"></div>`);
 			this.getContent(tab);
@@ -124,7 +120,6 @@ class TabNav
 				this.history[this.tabnext]=tab.tabid;
 				this.tabnext++;
 		}	
-		
 		$("#"+this.id+"-content").find(".tabcontent").hide();
 		$("#"+this.id+"-content").find("#"+tab.tabid+`-content`).show();
 	}
@@ -134,6 +129,13 @@ class TabNav
 		if(typeof tabid=="undefined")
 		{
 			tabid=$("#"+this.id).find("li a.active").parent().attr("id").replace("-tab","");
+		}
+		if($("#"+this.id).find("#"+tabid+"-tab").data("dirty")==true)
+		{
+			if(confirm("The tab you are closing has unsaved data.\r\n\r\nClick OK to close the tab - or click cancel.")==false)
+			{
+				return false;			
+			}
 		}
 		$("#"+this.id).find("#"+tabid+"-tab").remove();
 		$("#"+this.id + "-content").find("#"+tabid+"-content").remove();
@@ -149,7 +151,11 @@ class TabNav
 	{
 		if(tab.contentType=="html")
 		{
-			$("#"+this.id+"-content").find("#"+tab.tabid+"-content").html(tab.content)
+			$("#"+this.id+"-content").find("#"+tab.tabid+"-content").html(tab.content);
+			if(typeof tab.onLoad=="function")
+			{
+				tab.onLoad();
+			}
 		}
 		else
 		{
@@ -170,22 +176,42 @@ class TabNav
 						{
 							var button=this;
 							$(button).on("click",function() 
-								{ 
-									that.opentab($(button).data("tabconfig"));
+								{ 	
+									if(typeof $(button).data("tabconfig")=="object")
+									{
+										that.opentab($(button).data("tabconfig"));
+									}
 								});
-						});
-						$("#"+that.id+"-content").find("#"+tab.tabid+"-content").find("[data-tab='close']").each(function()
-							{
-								var button=this;
-								$(button).on("click",function()
-									{ 
-										that.closetab();
-									});
-							});
+						}
+					);
+					$("#"+that.id+"-content").find("[data-tabdirtify]").each(function()
+						{
+							var inputcontrol=this;
+							var dirty=$(inputcontrol).data("tabdirtify");
+							$(inputcontrol).on(dirty.event,function()
+								{
+									$("#"+that.id).find("#"+tab.tabid+"-tab").data("dirty",dirty.value);
+								}
+							);
+						}
+					);
+					$("#"+that.id+"-content").find("#"+tab.tabid+"-content").find("[data-tab='close']").each(function()
+						{
+							var button=this;
+							$(button).on("click",function()
+								{ 
+									that.closetab();
+								});
+						}
+					);
+					if(typeof tab.onLoad=="function")
+					{
+						tab.onLoad();
+					}
 				}).fail(function(e)
 				{
 					$("#"+that.id+"-content").find("#"+tab.tabid+"-content").html(e.responseText);
 				});
 		}
 	}
-}
+}	
