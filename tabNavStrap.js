@@ -4,19 +4,28 @@
 
 class TabNav
 {
-	constructor(id,container,sortable,homeconfig)
+	constructor(id,container,type,sortable,homeconfig)
 	{
-		this.id=id;
-		this.container=container;
-		this.homeconfig=homeconfig;
+		this.id=id || "tabs" + $("ul.navtabstrap").length;
+		this.container=container || "body";
+		this.type=type || "tabs";
+		this.sortable=sortable || true;
+		this.homeconfig=homeconfig || {"tabid":"home","label":"Home","contentType":"html","content":"Hello World"}
 		this.history=[];
 		this.history[0]=id;
 		this.tabnext=0;
-		this.sortable=sortable;
 	}
 	initialise()
-	{
-		var tabcont=$("#"+this.container).append(`<ul   id="`+this.id+`"  class="flex-row mt-1 nav nav-tabs ">	</ul><div   class="flex-grow-1 flex-row mb-3" style="padding:20px;background-color:white;border:1px solid rgb(222,226,230);overflow:auto;border-top:0;"><div  id="`+this.id+`-content" class="pb-2"  ></div></div>`);
+	{		
+		if(this.container!="body")
+		{
+		this.container="#"+this.container;
+		}
+		var tabcont=$(this.container).append(`<ul   id="`+this.id+`"  class="flex-row mt-1 navtabstrap nav nav-`+this.type +`">	</ul>
+			<div   class="flex-grow-1 flex-row mb-3" style="padding:20px;background-color:white;border:1px solid rgb(222,226,230);overflow:auto;` +  ((this.type=="pills") ? 'border-radius:5px;' : 'border-top:0;') + `">
+			<div  id="`+this.id+`-content" class="pb-2"  >
+			</div>
+		</div>`);
 		if(this.sortable)
 		{
 			$("#"+this.id).sortable(
@@ -29,6 +38,8 @@ class TabNav
 	}
 	opentab(tab)
 	{
+		console.log(tab);
+		console.log(this);
 		if(typeof tab.ajaxData=="undefined")
 		{
 			tab.ajaxData=null;
@@ -45,11 +56,11 @@ class TabNav
 		{
 			tab.ajaxMethod="POST";
 		}
-		if(typeof tab.refresh=="undefined")
+		if(typeof tab.refresh=="undefined" || tab.refresh==null)
 		{
 			tab.refresh=false;
 		}
-		if(typeof tab.closeable=="undefined")
+		if(typeof tab.closeable=="undefined" || tab.closeable==null)
 		{
 			tab.closeable=true;
 		}
@@ -93,7 +104,7 @@ class TabNav
 			<a class="nav-link active" href="#"><span class="label">` + tab.label +	`</span> </a></li>`);
 			if(tab.closeable)
 			{
-				$("#"+this.id).find("#"+tab.tabid+"-tab a").append(`<i   data-bs-toggle="tooltip" title="Close this tab" class="text-danger ms-2 bi bi-x-circle"></i>`);
+				$("#"+this.id).find("#"+tab.tabid+"-tab a").append(`<i   data-bs-toggle="tooltip" title="Close this tab" class="text-` + ((this.type=="pills") ? 'white' : 'danger') + ` ms-2 bi bi-x-circle"></i>`);
 				$("#"+this.id).find("#"+tab.tabid+"-tab a").find("i.bi-x-circle").on("click",function() { that.closetab(tab.tabid) });
 			}
 			if(tab.ajaxData)
