@@ -10,12 +10,13 @@ The class requires:
 
 # Getting Started
 
-```tabnav=new TabNav(id,container,sortable,hometab);```
+```tabnav=new TabNav(id,container,type,sortable,hometab);```
 
 * **id** : a unique id for the nav
 * **container** : the nav will be created in the container (probably a DIV) with this id
-* **sortable** : should the user be able to sort the tabs?
-* **hometab** : the settings for the first (home) tab e.g.:
+* **type** : the navigation type, either "pills" or "tabs"
+* **sortable** : should the user be able to sort the nav?
+* **hometab** : the settings for the first (home) tab or pill e.g.:
 
 ```
 {
