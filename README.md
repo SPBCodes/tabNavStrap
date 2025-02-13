@@ -55,6 +55,15 @@ const tabconfig={
 };
 tabnav.opentab(tabconfig)
 ```
+## Render a tab "dirty" if changes are made:
+If a tab's ajax retrieved content has form controls then you can use data attributes to cause the tab to become "dirty". If a tab is dirty then confirmation is required before the tab can be closed.
+```
+<textarea class="form-control" onkeyup="$('#formbut').html('Save Changes')"; data-tabdirtify='{"event":"change","value":true}'></textarea>
+<button id="formbut" onclick="$(this).html('Saved!')" class="btn btn-success" data-tabdirtify='{"event":"click","value":false}' >Save</button>
+```
+In the textarea above, the data-tabdirtify attribute means that when the textarea is changed an event will be invoked that will set the tab's dirty status to true.
+
+In the button above, the data-tabdirtify attribute means that when the button is clicked an event will be invoked that will set the tab's dirty status to false.
 
 ## Close a tab programmatically:
 
